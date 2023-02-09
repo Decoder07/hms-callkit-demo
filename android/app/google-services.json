@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "639484339298",
+    "project_id": "hms-callkit-dd0c9",
+    "storage_bucket": "hms-callkit-dd0c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639484339298:android:3a8154b3773841737c9d3b",
+        "android_client_info": {
+          "package_name": "com.example.hms_callkit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639484339298-89nq7lk1u56gnnq4qd1rra84c8fts1sc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHWLPFpOUzUcy7v-ci_zAL9jYEBW9Mim0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639484339298-89nq7lk1u56gnnq4qd1rra84c8fts1sc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
