@@ -1,14 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_callkit_incoming/entities/entities.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:hms_callkit/Utilities.dart';
-import 'package:hms_callkit/app_router.dart';
-import 'package:hms_callkit/hmssdk_interactor.dart';
-import 'package:hms_callkit/join_service.dart';
-import 'package:hms_callkit/navigation_service.dart';
+import 'package:hms_callkit/app_navigation/app_router.dart';
+import 'package:hms_callkit/hmssdk/join_service.dart';
+import 'package:hms_callkit/app_navigation/navigation_service.dart';
 import 'package:share_plus/share_plus.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,6 +34,7 @@ class _HomePageState extends State<HomePage> {
             String authToken = data["extra"]["authToken"];
             String userName = data["nameCaller"];
             bool res = await getPermissions();
+            startOutGoingCall();
             if (res) {
               NavigationService.instance
                   .pushNamed(AppRoute.callingPage, args: authToken);
@@ -75,14 +73,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    initCurrentCall();
     listenerEvent(onEvent);
   }
 
   onEvent(event) {
     if (!mounted) return;
     setState(() {
-      textEvents += "${event.toString()}\n";
+      onEventLogs += "${event.toString()}\n";
     });
   }
 
@@ -142,9 +139,10 @@ class _HomePageState extends State<HomePage> {
                         ),
                         InkWell(
                           onTap: () {
-                            Clipboard.setData(ClipboardData(text: fcmToken));
+                            Clipboard.setData(
+                                ClipboardData(text: deviceFCMToken));
                             Share.share(
-                              fcmToken,
+                              deviceFCMToken,
                               subject: 'Share device FCM Token',
                             );
                           },

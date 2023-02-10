@@ -1,11 +1,13 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hms_callkit/Utilities.dart';
-import 'package:hms_callkit/app_router.dart';
+import 'package:hms_callkit/app_navigation/app_router.dart';
 import 'package:hms_callkit/home_page.dart';
-import 'package:hms_callkit/navigation_service.dart';
+import 'package:hms_callkit/app_navigation/navigation_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
 
@@ -16,29 +18,13 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp>  with WidgetsBindingObserver{
+class _MyAppState extends State<MyApp>  {
   @override
   void initState() {
     super.initState();
     initFirebase();
-    WidgetsBinding.instance.addObserver(this);
     //Checks call when open app from terminated
-  }
-
-
-  @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-    print("HMSSDK $state");
-    if (state == AppLifecycleState.resumed) {
-      //Checks call when app is brought back from background
-      checkAndNavigationCallingPage();
-    }
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose(); 
+    checkAndNavigationCallingPage("main.dart");
   }
 
   @override

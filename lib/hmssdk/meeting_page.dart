@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:draggable_widget/draggable_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hms_callkit/Utilities.dart';
-import 'package:hms_callkit/app_router.dart';
-import 'package:hms_callkit/hmssdk_interactor.dart';
-import 'package:hms_callkit/navigation_service.dart';
+import 'package:hms_callkit/app_navigation/app_router.dart';
+import 'package:hms_callkit/hmssdk/hmssdk_interactor.dart';
+import 'package:hms_callkit/app_navigation/navigation_service.dart';
 import 'package:hmssdk_flutter/hmssdk_flutter.dart';
 
 class MeetingPage extends StatefulWidget {
@@ -21,8 +21,8 @@ class MeetingPage extends StatefulWidget {
   State<MeetingPage> createState() => _MeetingPageState();
 }
 
-class _MeetingPageState extends State<MeetingPage>
-    implements HMSUpdateListener, HMSActionResultListener {
+class _MeetingPageState extends State<MeetingPage> with WidgetsBindingObserver
+    implements HMSUpdateListener, HMSActionResultListener{
   Offset position = const Offset(5, 5);
   bool isJoinSuccessful = false;
   HMSPeer? localPeer, remotePeer;
@@ -30,23 +30,32 @@ class _MeetingPageState extends State<MeetingPage>
   bool isLocalVideoOn = true, isLocalAudioOn = true;
 
   @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {}
+
+
+  @override
   void initState() {
-    super.initState();  
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
     joinCall();
   }
 
   void joinCall() async {
-    HMSSDKInteractor.hmsSDK ??= HMSSDK();
-    await HMSSDKInteractor.hmsSDK?.build();
-    HMSSDKInteractor.hmsSDK?.addUpdateListener(listener: this);
-    if (widget.authToken != null) {
-      log("Join called...");
-      HMSSDKInteractor.hmsSDK?.join(
-          config: HMSConfig(
-              authToken: widget.authToken!, userName: widget.userName));
-    } else {
-      log("authToken is null");
-      NavigationService.instance.pushNamedIfNotCurrent(AppRoute.homePage);
+    if (!isJoinSuccessful) {
+      HMSSDKInteractor.hmsSDK ??= HMSSDK();
+      await HMSSDKInteractor.hmsSDK?.build();
+      HMSSDKInteractor.hmsSDK?.addUpdateListener(listener: this);
+      if (widget.authToken != null) {
+        log("Join called...");
+        isJoinSuccessful = true;
+        HMSSDKInteractor.hmsSDK?.join(
+            config: HMSConfig(
+                authToken: widget.authToken!, userName: widget.userName));
+      }
+      else{
+        log("authToken is null");
+        NavigationService.instance.pushNamedIfNotCurrent(AppRoute.homePage);
+      }
     }
   }
 
@@ -56,6 +65,7 @@ class _MeetingPageState extends State<MeetingPage>
     remotePeerVideoTrack = null;
     localPeer = null;
     localPeerVideoTrack = null;
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -362,6 +372,7 @@ class _MeetingPageState extends State<MeetingPage>
       {required HMSActionResultListenerMethod methodType,
       Map<String, dynamic>? arguments}) {
     if (methodType == HMSActionResultListenerMethod.leave) {
+      isJoinSuccessful = false;
       endCurrentCall();
       NavigationService.instance.pushNamedIfNotCurrent(AppRoute.homePage);
     }

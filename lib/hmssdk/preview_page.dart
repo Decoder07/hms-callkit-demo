@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hms_callkit/Utilities.dart';
-import 'package:hms_callkit/app_router.dart';
-import 'package:hms_callkit/hmssdk_interactor.dart';
-import 'package:hms_callkit/navigation_service.dart';
+import 'package:hms_callkit/app_navigation/app_router.dart';
+import 'package:hms_callkit/hmssdk/hmssdk_interactor.dart';
+import 'package:hms_callkit/app_navigation/navigation_service.dart';
 import 'package:hmssdk_flutter/hmssdk_flutter.dart';
 
 class PreviewPage extends StatefulWidget {

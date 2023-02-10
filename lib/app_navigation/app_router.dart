@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hms_callkit/home_page.dart';
-import 'package:hms_callkit/meeting_page.dart';
-import 'package:hms_callkit/preview_page.dart';
+import 'package:hms_callkit/hmssdk/meeting_page.dart';
+import 'package:hms_callkit/hmssdk/preview_page.dart';
 
 class AppRoute {
   static const homePage = '/home_page';
