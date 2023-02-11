@@ -34,8 +34,8 @@ class _HomePageState extends State<HomePage> {
             String authToken = data["extra"]["authToken"];
             String userName = data["nameCaller"];
             bool res = await getPermissions();
-            startOutGoingCall();
             if (res) {
+            startOutGoingCall();
               NavigationService.instance
                   .pushNamed(AppRoute.callingPage, args: authToken);
             }

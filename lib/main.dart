@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hms_callkit/Utilities.dart';
@@ -5,8 +6,9 @@ import 'package:hms_callkit/app_navigation/app_router.dart';
 import 'package:hms_callkit/home_page.dart';
 import 'package:hms_callkit/app_navigation/navigation_service.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
@@ -14,11 +16,11 @@ void main() {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  @override 
+  @override
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp>  {
+class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();

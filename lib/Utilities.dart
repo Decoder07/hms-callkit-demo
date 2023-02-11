@@ -19,12 +19,9 @@ String onEventLogs = "";
 late final FirebaseMessaging _firebaseMessaging;
 String deviceFCMToken = "";
 Color hmsdefaultColor = const Color.fromRGBO(36, 113, 237, 1);
-bool isFirebaseInitialized = false;
 
 //Handles when app is in background or terminated
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await beginFirebaseInit();
-  log("Handling a background message: ${message.messageId}");
   var response = jsonDecode(message.data["params"]);
   CallKitParams data = CallKitParams.fromJson(response);
   if (data.extra?.containsKey("authToken") ?? false) {
@@ -34,19 +31,10 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   }
 }
 
-//This initialises the firebase is it's not done already this is the first function that needs to be called whem using firebase
-Future<void> beginFirebaseInit() async {
-  if (!isFirebaseInitialized) {
-    await Firebase.initializeApp();
-    isFirebaseInitialized = true;
-  }
-  return;
-}
-
 //This initializes the firebase
 void initFirebase() async {
+  print("HMSSDK Firebase init");
   _uniqueCallId = const Uuid();
-  await beginFirebaseInit();
   _firebaseMessaging = FirebaseMessaging.instance;
   NotificationSettings settings = await _firebaseMessaging.requestPermission(
     alert: true,
@@ -63,7 +51,7 @@ void initFirebase() async {
     var response = jsonDecode(message.data["params"]);
     CallKitParams data = CallKitParams.fromJson(response);
     if (data.extra?.containsKey("authToken") ?? false) {
-      print("HMSSDK REceived Notification");
+      print("HMSSDK Received Notification");
       placeCall(data.extra!["authToken"]);
     } else {
       log("No Valid authToken found");
@@ -97,13 +85,12 @@ Future<void> placeCall(String authToken) async {
 
 //This function navigates to the call screen if a call is currently running
 void checkAndNavigationCallingPage(String message) async {
-  print("HMSSDK called from $message");
-  var currentCall = await _getCurrentCall();
-  print("HMSSDK Here");
-  if (currentCall != null) {
-    NavigationService.instance.pushNamedIfNotCurrent(AppRoute.callingPage,
-        args: currentCall["extra"]["authToken"]);
-  }
+      var currentCall = await _getCurrentCall();
+    bool res = await getPermissions();
+    if (res == true && currentCall != null && currentCall["extra"] != null) {
+      NavigationService.instance.pushNamedIfNotCurrent(AppRoute.callingPage,
+          args: currentCall["extra"]["authToken"]);
+    }
 }
 
 //To make a fake call on same device
@@ -206,7 +193,7 @@ Future<void> endCurrentCall() async {
   await FlutterCallkitIncoming.endCall(_currentCallId!);
 }
 
-//To get microphone and camera permissions 
+//To get microphone and camera permissions
 Future<bool> getPermissions() async {
   if (Platform.isIOS) return true;
   await Permission.camera.request();

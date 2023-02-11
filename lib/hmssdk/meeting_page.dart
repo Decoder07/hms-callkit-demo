@@ -21,8 +21,9 @@ class MeetingPage extends StatefulWidget {
   State<MeetingPage> createState() => _MeetingPageState();
 }
 
-class _MeetingPageState extends State<MeetingPage> with WidgetsBindingObserver
-    implements HMSUpdateListener, HMSActionResultListener{
+class _MeetingPageState extends State<MeetingPage>
+    with WidgetsBindingObserver
+    implements HMSUpdateListener, HMSActionResultListener {
   Offset position = const Offset(5, 5);
   bool isJoinSuccessful = false;
   HMSPeer? localPeer, remotePeer;
@@ -31,7 +32,6 @@ class _MeetingPageState extends State<MeetingPage> with WidgetsBindingObserver
 
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {}
-
 
   @override
   void initState() {
@@ -43,6 +43,7 @@ class _MeetingPageState extends State<MeetingPage> with WidgetsBindingObserver
   void joinCall() async {
     if (!isJoinSuccessful) {
       HMSSDKInteractor.hmsSDK ??= HMSSDK();
+      print("HMSSDK instance created");
       await HMSSDKInteractor.hmsSDK?.build();
       HMSSDKInteractor.hmsSDK?.addUpdateListener(listener: this);
       if (widget.authToken != null) {
@@ -51,8 +52,7 @@ class _MeetingPageState extends State<MeetingPage> with WidgetsBindingObserver
         HMSSDKInteractor.hmsSDK?.join(
             config: HMSConfig(
                 authToken: widget.authToken!, userName: widget.userName));
-      }
-      else{
+      } else {
         log("authToken is null");
         NavigationService.instance.pushNamedIfNotCurrent(AppRoute.homePage);
       }
