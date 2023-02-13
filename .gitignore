@@ -31,9 +31,9 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-/android/app/google-services.json
-/ios/GoogleService-Info.plist
-.firebaserc
+android/app/google-services.json
+ios/GoogleService-Info.plist
+/.firebaserc
 
 
 # Symbolication related
