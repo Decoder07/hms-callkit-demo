@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:hms_callkit/Utilities.dart';
+import 'package:hms_callkit/utility_functions.dart';
 import 'package:hms_callkit/app_navigation/app_router.dart';
 import 'package:hms_callkit/hmssdk/hmssdk_interactor.dart';
 import 'package:hms_callkit/app_navigation/navigation_service.dart';

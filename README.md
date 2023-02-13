@@ -1,16 +1,66 @@
 # hms_callkit
 
-A new Flutter project.
+A sampple project for calling made with 100ms and flutter_callkit_incoming.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+- Clone the repo
+- Run flutter pub get
+- Setup 100ms token service
+- Setup firebase service for notifications
 
-A few resources to get you started if this is your first Flutter project:
+That's it now to run the project execute `flutter run`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Setup 100ms token service
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+100ms token service takes care of joining room once you receive a call or you wish to call someone.
+We will need an authentication token to join the room which we will also send to other peer through payload by which the receiver can also join the room
+
+Here's the code for this: 
+
+```dart 
+Future<String> getAuthToken({required String roomId,required String tokenEndpoint,required String userId,required String role}) async {
+  Uri endPoint = Uri.parse(
+      tokenEndpoint);
+  http.Response response = await http.post(endPoint,
+      body: {'user_id': userId, 'room_id': roomId, 'role': role});
+  var body = json.decode(response.body);
+  return body['token'];
+}
+```
+
+`getAuthToken` returns the authentication token which we will use for joining the room and also share with the receiver for him to join the room.
+
+Let's understand the parameters of this function:
+
+- roomId
+
+`roomId` refers to the room which you wish to join. You can find the roomId in dashboard's rooms section.
+
+- tokenEndpoint
+
+`tokenEndpoint` is the url which is used to get the authentication token. You can find the `tokenEndpoint` in developer section of 100ms dashboard.
+
+- userId
+
+`userId` can be used to uniquely identify user to perform any specific actions on that user later on.
+
+- role
+
+`role` refers the role which you wish to join the room. Ensure that the given role is present in the room template for given roomId.
+
+### Setup firebase service for notifications
+
+First create a project on firebase. You can find the steps [here](https://medium.com/enappd/adding-firebase-to-your-flutter-app-281b8f391b47)
+
+Since we will be using firebase messaging to deliver notifications ensure that you have a `blaze plan` enabled on firebase and please enable `cloud messaging` and `Firebase Cloud Messaging API` from firebase cloud console.
+
+![cloud-console](https://user-images.githubusercontent.com/93931528/218379651-d35036ff-98f2-4b6c-a298-4a229d3326b7.jpeg)
+
+For setting up firebase notifications please follow [this](https://quickcoder.org/flutter-push-notifications/)
+
+The repo already contains a `functions` folder which has the firebase functions so you can directly deploy them.
+
+That's it you are all set for running the application.
+
+Have any issues. Please reach out to us over [discord](https://100ms.live/discord)

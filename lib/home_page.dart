@@ -1,8 +1,10 @@
+//Package imports
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_callkit_incoming/entities/entities.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
-import 'package:hms_callkit/Utilities.dart';
+import 'package:hms_callkit/utility_functions.dart';
 import 'package:hms_callkit/app_navigation/app_router.dart';
 import 'package:hms_callkit/hmssdk/join_service.dart';
 import 'package:hms_callkit/app_navigation/navigation_service.dart';

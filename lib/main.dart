@@ -1,15 +1,13 @@
+//Package imports
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:hms_callkit/Utilities.dart';
+import 'package:hms_callkit/utility_functions.dart';
 import 'package:hms_callkit/app_navigation/app_router.dart';
-import 'package:hms_callkit/home_page.dart';
 import 'package:hms_callkit/app_navigation/navigation_service.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
 
@@ -26,7 +24,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     initFirebase();
     //Checks call when open app from terminated
-    checkAndNavigationCallingPage("main.dart");
+    checkAndNavigationCallingPage("Navigation called from main.dart");
   }
 
   @override

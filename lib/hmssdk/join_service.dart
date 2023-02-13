@@ -1,4 +1,7 @@
+//Dart imports
 import 'dart:convert';
+
+//Package imports
 import 'package:http/http.dart' as http;
 
 Future<String> getAuthToken({required String roomId}) async {
