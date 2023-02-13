@@ -11,6 +11,16 @@ A sampple project for calling made with 100ms and flutter_callkit_incoming.
 
 That's it now to run the project execute `flutter run`
 
+## How to test
+
+To test the application install the app in two devices.
+
+- Copy the code(FCM token) from one device. Let's call it Device-1
+- Paste this token on different device. Let's call this Device-2
+- Press the Call Now button on Device-1
+- You will receive a notification on Device-2 
+- Accept the call on Device-2
+
 ### Setup 100ms token service
 
 100ms token service takes care of joining room once you receive a call or you wish to call someone.
@@ -68,4 +78,3 @@ This is how the application looks like:
 https://user-images.githubusercontent.com/93931528/218388254-7a949970-7227-44e7-8017-9f4347017655.mp4
 
 Have any issues. Please reach out to us over [discord](https://100ms.live/discord)
-
