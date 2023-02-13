@@ -1,9 +1,10 @@
+//Dart imports
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+//Package imports
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_callkit_incoming/entities/entities.dart';
@@ -33,9 +34,10 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 //This initializes the firebase
 void initFirebase() async {
-  print("HMSSDK Firebase init");
+  print("Firebase init");
   _uniqueCallId = const Uuid();
   _firebaseMessaging = FirebaseMessaging.instance;
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   NotificationSettings settings = await _firebaseMessaging.requestPermission(
     alert: true,
     badge: true,
@@ -63,8 +65,8 @@ void initFirebase() async {
   initCurrentCall();
 }
 
+//This function returns the currently running call if any
 _getCurrentCall() async {
-  //check current call from pushkit if possible
   var calls = await FlutterCallkitIncoming.activeCalls();
   if (calls is List) {
     if (calls.isNotEmpty) {
@@ -85,13 +87,19 @@ Future<void> placeCall(String authToken) async {
 
 //This function navigates to the call screen if a call is currently running
 void checkAndNavigationCallingPage(String message) async {
-      var currentCall = await _getCurrentCall();
-    bool res = await getPermissions();
-    if (res == true && currentCall != null && currentCall["extra"] != null) {
-      NavigationService.instance.pushNamedIfNotCurrent(AppRoute.callingPage,
-          args: currentCall["extra"]["authToken"]);
-    }
-}
+  var currentCall = await _getCurrentCall();
+  bool res = await getPermissions();
+  if(currentCall != null){
+          Map<String, dynamic> callData = {};
+      currentCall.forEach((key, value) {
+        callData[key] = value;
+      });
+      if (res == true && currentCall != null && currentCall["extra"] != null) {
+        NavigationService.instance
+            .pushNamedIfNotCurrent(AppRoute.callingPage, args: currentCall["extra"]["authToken"]);
+      }
+  }
+  }
 
 //To make a fake call on same device
 Future<void> makeFakeCallInComing() async {
@@ -153,7 +161,7 @@ Future<void> startOutGoingCall() async {
   _currentCallId = _uniqueCallId?.v4();
   final params = CallKitParams(
     id: _currentCallId,
-    nameCaller: 'Hien Nguyen',
+    nameCaller: 'Test user',
     handle: '0123456789',
     type: 1,
     extra: <String, dynamic>{'userId': '1a2b3c4d'},
@@ -162,18 +170,19 @@ Future<void> startOutGoingCall() async {
   await FlutterCallkitIncoming.startCall(params);
 }
 
+//This method returns all the calls running currently
 Future<void> activeCalls() async {
   var calls = await FlutterCallkitIncoming.activeCalls();
   log(calls);
 }
 
+//This method ends all the calls that are running currently
 Future<void> endAllCalls() async {
   await FlutterCallkitIncoming.endAllCalls();
 }
 
 //This function fetches the calls that are currently active and set the _currentCallId to that call
 initCurrentCall() async {
-  //check current call from pushkit if possible
   var calls = await FlutterCallkitIncoming.activeCalls();
   if (calls is List) {
     if (calls.isNotEmpty) {
@@ -246,7 +255,7 @@ CallKitParams getCallInfo(String authToken) {
     avatar: 'https://i.pravatar.cc/100',
     handle: '0123456789',
     type: 1,
-    duration: 30000,
+    duration: 60000,
     textAccept: 'Accept',
     textDecline: 'Decline',
     textMissedCall: 'Missed call',

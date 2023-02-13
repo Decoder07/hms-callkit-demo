@@ -1,8 +1,10 @@
+//Dart imports
 import 'dart:developer';
 
+//Package imports
 import 'package:draggable_widget/draggable_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:hms_callkit/Utilities.dart';
+import 'package:hms_callkit/utility_functions.dart';
 import 'package:hms_callkit/app_navigation/app_router.dart';
 import 'package:hms_callkit/hmssdk/hmssdk_interactor.dart';
 import 'package:hms_callkit/app_navigation/navigation_service.dart';
@@ -373,8 +375,8 @@ class _MeetingPageState extends State<MeetingPage>
       Map<String, dynamic>? arguments}) {
     if (methodType == HMSActionResultListenerMethod.leave) {
       isJoinSuccessful = false;
-      endCurrentCall();
-      NavigationService.instance.pushNamedIfNotCurrent(AppRoute.homePage);
+      endAllCalls();
+      NavigationService.instance.popUntil(AppRoute.homePage);
     }
   }
 }
