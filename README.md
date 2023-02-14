@@ -24,7 +24,7 @@ To test the application install the app in two devices.
 ### Setup 100ms token service
 
 100ms token service takes care of joining room once you receive a call or you wish to call someone.
-We will need an authentication token to join the room which we will also send to other peer through payload by which the receiver can also join the room
+We will need an authentication token to join the room which we will also send to other peer through payload by which the receiver can also join the room. You can find the code for this in `join_service.dart`.
 
 Here's the code for this: 
 
