@@ -376,7 +376,7 @@ class _MeetingPageState extends State<MeetingPage>
     if (methodType == HMSActionResultListenerMethod.leave) {
       isJoinSuccessful = false;
       endAllCalls();
-      NavigationService.instance.pushNamedIfNotCurrent(AppRoute.homePage);
+      NavigationService.instance.pushNamedAndRemoveUntil(AppRoute.homePage);
     }
   }
 }
