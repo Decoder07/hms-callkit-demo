@@ -37,7 +37,6 @@ void initFirebase() async {
   print("Firebase init");
   _uniqueCallId = const Uuid();
   _firebaseMessaging = FirebaseMessaging.instance;
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   NotificationSettings settings = await _firebaseMessaging.requestPermission(
     alert: true,
     badge: true,

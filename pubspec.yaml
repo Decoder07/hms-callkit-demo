@@ -40,7 +40,10 @@ dependencies:
   firebase_messaging_platform_interface:
   uuid: 3.0.6
   http: ^0.13.4
-  hmssdk_flutter: 1.3.0
+  hmssdk_flutter:
+    git:
+      url: https://github.com/100mslive/100ms-flutter.git
+      ref: plugin-android-fix
   permission_handler: 10.2.0
   flutter_callkit_incoming:
   cloud_functions:
