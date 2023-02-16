@@ -20,7 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController fcmTokenController = TextEditingController();
   TextEditingController roomIdController =
-      TextEditingController(text: "618b55d8be6c3c0b35150abd");
+      TextEditingController();
 
   Future<void> listenerEvent(Function? callback) async {
     try {
@@ -284,14 +284,23 @@ class _HomePageState extends State<HomePage> {
                           return;
                         }
                         await getPermissions();
-                        String authToken =
-                            await getAuthToken(roomId: roomIdController.text);
-                        call(
-                            receiverFCMToken: fcmTokenController.text,
-                            authToken: authToken);
-                        NavigationService.instance.pushNamedIfNotCurrent(
-                            AppRoute.previewPage,
-                            args: authToken);
+                        //Enter the tokenEndPoint, role and userId here
+                        String? authToken =
+                            await getAuthToken(
+                            roomId: roomIdController.text,
+                            role: "Enter the role here",
+                            tokenEndpoint: 
+                            "Enter your token endpoint here",
+                            userId: "Enter the user Id here");
+                        //Checking whether authentication token is null or not
+                        if(authToken != null){
+                          call(
+                              receiverFCMToken: fcmTokenController.text,
+                              authToken: authToken);
+                          NavigationService.instance.pushNamedIfNotCurrent(
+                              AppRoute.previewPage,
+                              args: authToken);  
+                        }
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
