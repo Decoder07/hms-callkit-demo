@@ -1,4 +1,4 @@
-# One to one calling application using 100ms and flutter_callkit_incoming
+# One To One Call Application
 
 A sample project for calling made with 100ms and flutter_callkit_incoming.
 
