@@ -1,4 +1,4 @@
-# hms_callkit
+# One to one calling application using 100ms and flutter_callkit_incoming
 
 A sample project for calling made with 100ms and flutter_callkit_incoming.
 
