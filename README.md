@@ -2,6 +2,8 @@
 
 A sample project for calling made with 100ms and flutter_callkit_incoming.
 
+https://user-images.githubusercontent.com/93931528/218388254-7a949970-7227-44e7-8017-9f4347017655.mp4
+
 ## Getting Started
 
 - Clone the repo
@@ -72,9 +74,5 @@ For setting up firebase notifications please follow [this](https://quickcoder.or
 The repo already contains a `functions` folder which has the firebase functions so you can directly deploy them.
 
 That's it you are all set for running the application.
-
-This is how the application looks like:
-
-https://user-images.githubusercontent.com/93931528/218388254-7a949970-7227-44e7-8017-9f4347017655.mp4
 
 Have any issues. Please reach out to us over [discord](https://100ms.live/discord)
