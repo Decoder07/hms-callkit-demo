@@ -2,7 +2,8 @@
 
 A sample project for calling made with 100ms and flutter_callkit_incoming.
 
-https://user-images.githubusercontent.com/93931528/218388254-7a949970-7227-44e7-8017-9f4347017655.mp4
+https://github.com/Decoder07/hms-callkit-demo/assets/93931528/69bd9d0f-65e9-46cd-a50c-4ac7ea9a6446
+
 
 ## Getting Started
 
